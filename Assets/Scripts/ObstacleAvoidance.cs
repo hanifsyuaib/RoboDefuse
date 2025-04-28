@@ -181,4 +181,43 @@ public class ObstacleAvoidance : MonoBehaviour
             isRotating = false;
         }
     }
+
+        public bool IsObstacleInFront()
+    {
+        for (float angle = -30f; angle <= 30f; angle += raycastAngleStep)
+        {
+            Vector3 dir = Quaternion.Euler(0, angle, 0) * transform.forward;
+            if (Physics.Raycast(transform.position, dir, raycastLength, obstacleLayer))
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Call this from AStarPathfinding.FixedUpdate to actually do your avoidance move/turn
+    /// </summary>
+    public void PerformAvoidance()
+    {
+        if (isReversing)
+        {
+            ReverseAndTurn();
+            return;
+        }
+        if (isRotating)
+        {
+            RotateInPlace();
+            return;
+        }
+
+        // reuse your existing logic:
+        bool front = IsObstacleInFront();
+        bool left = Physics.Raycast(transform.position,-transform.right, detectionDistance, obstacleLayer);
+        bool right= Physics.Raycast(transform.position, transform.right, detectionDistance, obstacleLayer);
+
+        if (front) AvoidObstacle();
+        else carController.MoveForward();
+
+        /* … stuck‐check, turn adjustments, etc. … */
+    }
+    
 }
