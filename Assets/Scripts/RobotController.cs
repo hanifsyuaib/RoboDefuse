@@ -86,11 +86,11 @@ public class RobotController : MonoBehaviour
         // Left/Right Rotation (A/D)
         if (Input.GetKey(KeyCode.A))
         {
-            targetAngular = -maxAngularSpeed; // Rotate left
+            targetAngular = maxAngularSpeed; // Rotate left
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            targetAngular = maxAngularSpeed; // Rotate right
+            targetAngular = -maxAngularSpeed; // Rotate right
         }
 
         // Apply the calculated movement targets
@@ -99,6 +99,7 @@ public class RobotController : MonoBehaviour
 
     private void ApplyDifferentialDriveMovementWithWheels()
     {
+
 
         // --- Manual Braking Override ---
         if (isBraking)
