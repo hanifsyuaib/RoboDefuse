@@ -16,7 +16,9 @@ public class BombCounter : MonoBehaviour
     void Awake(){
         if(instance == null){
             instance = this;
+            Debug.Log($"BombCounter instance assigned to: {this.gameObject.name}");
         } else {
+            Debug.LogWarning($"Duplicate BombCounter detected on {this.gameObject.name}. Destroying this duplicate.", this.gameObject);
             Destroy(gameObject);
         }
     }
