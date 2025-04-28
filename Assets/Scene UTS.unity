@@ -6640,7 +6640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &516912821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15525,7 +15525,7 @@ MonoBehaviour:
   maxAngularSpeed: 500
   targetLinearVelocity: 0
   targetAngularVelocity: 0
-  motorTorque: 100
+  motorTorque: 85
   brakeTorque: 200
   wheelFL: {fileID: 1749159906}
   wheelFR: {fileID: 24016463}
@@ -15606,12 +15606,14 @@ MonoBehaviour:
   robotController: {fileID: 0}
   localizationSystem: {fileID: 0}
   sensorSystem: {fileID: 0}
-  currentTarget: {fileID: 0}
+  currentTarget: {fileID: 516912824}
   targetReachedThreshold: 0.5
-  rotationSpeed: 60
-  avoidanceTurnSpeed: 500
-  forwardSpeed: 5
-  currentState: 0
+  rotationSpeed: 500
+  avoidanceTurnSpeed: 90
+  forwardSpeed: 2
+  alignmentAngleThreshold: 10
+  turnOnlyAngleThreshold: 45
+  currentState: 1
 --- !u!1001 &1048918924
 PrefabInstance:
   m_ObjectHideFlags: 0
