@@ -389,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.36
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6640,7 +6640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &516912821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10355,7 +10355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.47
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15413,6 +15413,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1033340553}
+    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033340554}
+    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033340555}
     - targetCorrespondingSourceObject: {fileID: 2126553635, guid: 78f66e17931a4e5449da398ea3d1f94c,
         type: 3}
       insertIndex: -1
@@ -15514,7 +15522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wheelBase: 0.5
   maxLinearSpeed: 3
-  maxAngularSpeed: 90
+  maxAngularSpeed: 500
   targetLinearVelocity: 0
   targetAngularVelocity: 0
   motorTorque: 100
@@ -15567,6 +15575,43 @@ MonoBehaviour:
   obstacleDetected: 0
   distanceToObstacle: 3.4028235e+38
   detectedBomb: {fileID: 0}
+--- !u!114 &1033340554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033340545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f94351c1cf145759fac382d5990905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  robotController: {fileID: 0}
+  estimatedPosition: {x: 0, y: 0, z: 0}
+  estimatedRotation: {x: 0, y: 0, z: 0, w: 0}
+  estimatedYawRad: 0
+--- !u!114 &1033340555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033340545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609b2d8e3ddcf43639cbe01ed0324127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  robotController: {fileID: 0}
+  localizationSystem: {fileID: 0}
+  sensorSystem: {fileID: 0}
+  currentTarget: {fileID: 0}
+  targetReachedThreshold: 0.5
+  rotationSpeed: 60
+  avoidanceTurnSpeed: 500
+  forwardSpeed: 5
+  currentState: 0
 --- !u!1001 &1048918924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18048,7 +18093,7 @@ Transform:
   m_GameObject: {fileID: 1190758578}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.06, y: 2.22, z: -50.03}
+  m_LocalPosition: {x: 52.06, y: 2.115, z: -50.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23118,7 +23163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.467
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.z
