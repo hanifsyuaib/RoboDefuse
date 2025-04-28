@@ -375,6 +375,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: -37.99
@@ -1356,13 +1360,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.463
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2000,6 +2008,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: -32.700005
@@ -2423,6 +2435,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_Name
       value: Magnetic bomb prefab (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10018,6 +10034,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: -45.29
@@ -14763,6 +14783,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -15021,15 +15045,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1033340547}
-    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1033340546}
     - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1033340550}
+    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033340551}
+    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033340552}
+    - targetCorrespondingSourceObject: {fileID: 1283037223, guid: 78f66e17931a4e5449da398ea3d1f94c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033340553}
     - targetCorrespondingSourceObject: {fileID: 2126553635, guid: 78f66e17931a4e5449da398ea3d1f94c,
         type: 3}
       insertIndex: -1
@@ -15088,28 +15120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   turnSpeed: 120
---- !u!64 &1033340547
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033340545}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!54 &1033340548
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15118,10 +15128,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033340545}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 30
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_CenterOfMass: {x: 0, y: -0.5, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -15130,7 +15140,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -15149,10 +15159,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d2fced1f6006440ae0661ca7f5c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionDistance: 3
+  detectionDistance: 2
+  reverseTime: 1.5
+  rotateInPlaceTime: 1
+  stuckCheckInterval: 2
+  stuckMovementThreshold: 0.5
+  reverseSpeedMultiplier: 0.5
+  enhancedReverseSpeed: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  raycastAngleStep: 15
+  raycastLength: 2
+--- !u!65 &1033340551
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033340545}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.43, y: 0.15, z: 0.5}
+  m_Center: {x: 0, y: 0, z: -0.15}
+--- !u!114 &1033340552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033340545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec85b5d2174373f43906f559c01d7d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landmarkA: {fileID: 383698710}
+  landmarkB: {fileID: 1190758579}
+  landmarkC: {fileID: 526152664}
+  measuredDistanceA: 0
+  measuredDistanceB: 0
+  measuredDistanceC: 0
+  estimatedPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &1033340553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033340545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aed05fc495eff64ea61fc2aa21d8329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombZones:
+  - {fileID: 383698710}
+  - {fileID: 1190758579}
+  - {fileID: 526152664}
+  localization: {fileID: 1033340552}
+  detectionRadius: 2
+  bombLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  speed: 5
+  turnSpeed: 100
 --- !u!1001 &1048918924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20679,6 +20760,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -20817,6 +20902,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_Name
       value: Magnetic bomb prefab (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21495,6 +21584,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_Name
       value: Magnetic bomb prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22202,6 +22295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic bomb prefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.6100006
@@ -22577,6 +22674,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_Name
       value: Magnetic bomb prefab (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -30058,6 +30159,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_Name
       value: Magnetic bomb prefab (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7665215c8eddc0a44a216110cdeced13, type: 3}
       propertyPath: m_LocalPosition.x

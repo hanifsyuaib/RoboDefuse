@@ -11,10 +11,17 @@ public class RobotCarController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center to make harder to flip
     }
 
     private void Update()
     {
+        // If robot flipped upside down
+        if (Vector3.Dot(transform.up, Vector3.down) > 0.7f)
+        {
+            FlipBack();
+        }
+
         HandleManualInput();
     }
 
@@ -35,6 +42,14 @@ public class RobotCarController : MonoBehaviour
         }
     }
 
+    private void FlipBack()
+    {
+        // Simply reset rotation upright
+        rb.velocity = Vector3.zero; // stop weird movements
+        rb.angularVelocity = Vector3.zero;
+        transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+    }
+
     // --- Automatic Control Functions ---
 
     public void MoveForward()
@@ -42,9 +57,9 @@ public class RobotCarController : MonoBehaviour
         Move(transform.forward);
     }
 
-    public void MoveBackward()
+    public void MoveBackward(float speedMultiplier = 1f)
     {
-        Move(-transform.forward);
+        Move(-transform.forward * speedMultiplier);
     }
 
     public void Turn(float direction)
