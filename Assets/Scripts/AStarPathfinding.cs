@@ -1,98 +1,59 @@
 using UnityEngine;
 using System.Linq;
 
+[RequireComponent(typeof(RobotCarController))]
 public class AStarPathfinding : MonoBehaviour
 {
-    public Transform[] bombZones; // Bomb zone locations
-    public TrilaterationLocalization localization; // Trilateration localization script
-    public float detectionRadius = 2f; // Radius for bomb detection
-    public LayerMask bombLayer; // Layer to detect bombs
-    public float speed = 5f; // Speed at which the robot moves
-    public float turnSpeed = 100f; // Speed at which the robot turns
-    private int currentBombZoneIndex = 0; // Index for the current bomb zone
-    private Vector3 currentTarget;
-    private Rigidbody rb; // Rigidbody for physics-based movement
-    private Transform[] sortedBombZones; // Sorted bomb zones by distance
+    public Transform[] bombZones; // Input bomb zone locations
+    public TrilaterationLocalization localization; // Reference to localization
+    public float detectionRadius = 2f; // Bomb detection range
+    public LayerMask bombLayer;
+
+    private RobotCarController carController;
+    private Transform[] sortedBombZones;
+    private int currentIndex = 0;
 
     void Start()
     {
-        // Get the Rigidbody component
-        rb = GetComponent<Rigidbody>();
+        carController = GetComponent<RobotCarController>();
 
-        // Ensure the Rigidbody is not affected by gravity or rotation on certain axes
-        rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
-        // Sort bomb zones based on the robot's current position
-        sortedBombZones = bombZones.OrderBy(zone => Vector3.Distance(transform.position, zone.position)).ToArray();
-
-        // Set the first bomb zone as the target
-        SetNextTarget();
+        // Sort bomb zones by distance from the robot
+        sortedBombZones = bombZones
+            .OrderBy(z => Vector3.Distance(transform.position, z.position))
+            .ToArray();
     }
 
     void Update()
     {
-        // Get the robot's current position using trilateration
-        Vector3 robotPosition = localization.estimatedPosition;
-
-        // Move towards the current target bomb zone
-        MoveToTarget(robotPosition);
-
-        // Check if the robot has reached the target bomb zone
-        if (IsBombDetected(robotPosition))
+        if (currentIndex >= sortedBombZones.Length)
         {
-            Debug.Log("Bomb zone reached! Moving to next zone...");
-            SetNextTarget(); // Move to the next bomb zone
+            Debug.Log("✅ All bomb zones visited.");
+            carController.StopMoving();
+            return;
         }
-    }
 
-    void MoveToTarget(Vector3 currentPosition)
-    {
-        // Calculate direction to target
-        Vector3 direction = (currentTarget - currentPosition).normalized;
+        Vector3 currentPos = localization.estimatedPosition;
+        Vector3 targetPos = sortedBombZones[currentIndex].position;
 
-        // Calculate the angle between the robot's current forward direction and the direction to the target
+        // Check for arrival
+        if (Vector3.Distance(currentPos, targetPos) <= detectionRadius)
+        {
+            Debug.Log($"🎯 Bomb zone {currentIndex + 1} reached!");
+            currentIndex++;
+            return;
+        }
+
+        // Direction and rotation
+        Vector3 direction = (targetPos - currentPos).normalized;
         float angleToTarget = Vector3.SignedAngle(transform.forward, direction, Vector3.up);
 
-        // If the angle is large, rotate slowly towards the target
-        if (Mathf.Abs(angleToTarget) > 2f) // Tolerance for when to start turning
+        if (Mathf.Abs(angleToTarget) > 5f)
         {
-            RotateTowardsTarget(angleToTarget); // Rotate slowly in the right direction
+            carController.Rotate(Mathf.Sign(angleToTarget));
         }
         else
         {
-            // Move towards the target in the forward direction
-            rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            carController.MoveForward();
         }
-    }
-
-    void RotateTowardsTarget(float angle)
-    {
-        // Rotate the robot slowly in the direction of the target
-        float turnDirection = Mathf.Sign(angle);
-        float rotationAmount = turnSpeed * turnDirection * Time.deltaTime;
-        transform.Rotate(0f, rotationAmount, 0f); // Rotate around Y-axis
-    }
-
-    void SetNextTarget()
-    {
-        // Loop through the sorted bomb zones to find the next one
-        if (sortedBombZones.Length > 0)
-        {
-            currentTarget = sortedBombZones[currentBombZoneIndex].position;
-            currentBombZoneIndex = (currentBombZoneIndex + 1) % sortedBombZones.Length; // Loop back to first zone
-        }
-    }
-
-    bool IsBombDetected(Vector3 position)
-    {
-        // Use Physics.OverlapSphere or Physics.CheckSphere to detect if the robot is in range of a bomb
-        Collider[] hitColliders = Physics.OverlapSphere(position, detectionRadius, bombLayer);
-        if (hitColliders.Length > 0)
-        {
-            // Bomb detected in the area
-            return true;
-        }
-        return false;
     }
 }

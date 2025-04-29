@@ -4,27 +4,29 @@ public class ObstacleAvoidance : MonoBehaviour
 {
     public float detectionDistance = 2f;
     public float reverseTime = 1.5f;
-    public float rotateInPlaceTime = 1.0f;
-    public float stuckCheckInterval = 2f;
+    public float stuckCheckInterval = 0.4f;
     public float stuckMovementThreshold = 0.5f;
-    public float reverseSpeedMultiplier = 0.5f;
-    public float enhancedReverseSpeed = 1.0f; // Speed when reversing during stuck
+    public float enhancedReverseSpeed = 1.0f;
     public LayerMask obstacleLayer;
 
     private RobotCarController carController;
     private bool isReversing = false;
     private bool isRotating = false;
     private float actionTimer = 0f;
-    private int turnDirection = 1; // 1 = right, -1 = left
+    private int turnDirection = 1;
+    private int lastTurnDirection = 1;
 
-    // --- For stuck detection ---
     private Vector3 lastPosition;
     private float stuckTimer = 0f;
 
-    // Raycast directions for better obstacle detection
-    public float raycastAngleStep = 15f;  // Angle step for surrounding rays
-    public float raycastLength = 2f;      // Ray length for obstacle detection
-    private RaycastHit hit;
+    private bool isNarrowPath = false;
+    private float rotationTargetAngle = 0f;
+    private float rotationStartAngle = 0f;
+
+    private int stuckCount = 0;
+
+    public float raycastAngleStep = 15f;
+    public float raycastLength = 2.5f;
 
     void Start()
     {
@@ -34,6 +36,13 @@ public class ObstacleAvoidance : MonoBehaviour
 
     void Update()
     {
+        if (!IsGrounded())
+        {
+            Debug.LogWarning("Robot off ground! Stopping.");
+            carController.StopMoving();
+            return;
+        }
+
         if (isReversing)
         {
             ReverseAndTurn();
@@ -45,14 +54,12 @@ public class ObstacleAvoidance : MonoBehaviour
             return;
         }
 
-        // Cast front rays to check for obstacles
         bool isObstacleDetected = false;
-        for (float angle = -30f; angle <= 30f; angle += raycastAngleStep)  // Only cast in front within a cone
+        for (float angle = -30f; angle <= 30f; angle += raycastAngleStep)
         {
             Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-            bool hitObstacle = Physics.Raycast(transform.position, direction, out hit, raycastLength, obstacleLayer);
+            bool hitObstacle = Physics.Raycast(transform.position, direction, raycastLength, obstacleLayer);
 
-            // Visualize the rays in green (turn red if an obstacle is detected)
             Color rayColor = hitObstacle ? Color.red : Color.green;
             Debug.DrawRay(transform.position, direction * raycastLength, rayColor);
 
@@ -62,39 +69,24 @@ public class ObstacleAvoidance : MonoBehaviour
             }
         }
 
-        // Cast rays to the left and right of the car to help determine if the space is narrow
         bool obstacleLeft = Physics.Raycast(transform.position, -transform.right, detectionDistance, obstacleLayer);
         bool obstacleRight = Physics.Raycast(transform.position, transform.right, detectionDistance, obstacleLayer);
 
-        // Visualize left and right rays
         Debug.DrawRay(transform.position, -transform.right * detectionDistance, obstacleLeft ? Color.red : Color.green);
         Debug.DrawRay(transform.position, transform.right * detectionDistance, obstacleRight ? Color.red : Color.green);
 
-        // If there's an obstacle in the front, decide what to do
+        isNarrowPath = obstacleLeft && obstacleRight;
+
         if (isObstacleDetected)
         {
-            AvoidObstacle();
+            AvoidObstacle(obstacleLeft, obstacleRight);
         }
         else
         {
             carController.MoveForward();
+            HandleLightAdjustment(obstacleLeft, obstacleRight);
         }
 
-        // Adjust rotation based on surrounding space (narrow vs wide)
-        if (!obstacleLeft && !obstacleRight)
-        {
-            // Wider space - make an even smaller rotation to explore
-            turnDirection = Random.value > 0.5f ? 1 : -1; // Small random rotation
-            carController.Turn(turnDirection * 0.5f); // Much smaller rotation
-        }
-        else if (obstacleLeft && obstacleRight)
-        {
-            // Narrow path - make a bigger rotation to escape
-            turnDirection = Random.value > 0.5f ? 1 : -1; // Larger rotation to break free
-            carController.Turn(turnDirection * 2);  // Increase the rotation speed
-        }
-
-        // Stuck detection (same as before)
         stuckTimer += Time.deltaTime;
         if (stuckTimer >= stuckCheckInterval)
         {
@@ -104,42 +96,77 @@ public class ObstacleAvoidance : MonoBehaviour
                 Debug.Log("Robot stuck! Trying to escape...");
                 StartReverseAndRotate();
             }
+            else
+            {
+                stuckCount = 0; // 🆕 Reset stuck counter if moved properly
+            }
             lastPosition = transform.position;
             stuckTimer = 0f;
         }
     }
 
-    private void AvoidObstacle()
+    private void AvoidObstacle(bool obstacleLeft, bool obstacleRight)
     {
-        bool obstacleLeft = Physics.Raycast(transform.position, -transform.right, detectionDistance, obstacleLayer);
-        bool obstacleRight = Physics.Raycast(transform.position, transform.right, detectionDistance, obstacleLayer);
-
         if (!obstacleLeft && !obstacleRight)
         {
-            // No obstacles left or right → randomly pick one
             turnDirection = Random.value > 0.5f ? -1 : 1;
             carController.Turn(turnDirection);
         }
         else if (!obstacleLeft)
         {
-            carController.Turn(-1); // Turn left
+            carController.Turn(-1);
         }
         else if (!obstacleRight)
         {
-            carController.Turn(1); // Turn right
+            carController.Turn(1);
         }
         else
         {
-            // Surrounded → reverse with higher speed and then rotate
             StartReverseAndRotate();
+        }
+    }
+
+    private void HandleLightAdjustment(bool obstacleLeft, bool obstacleRight)
+    {
+        if (!obstacleLeft && !obstacleRight)
+        {
+            turnDirection = Random.value > 0.5f ? 1 : -1;
+            carController.Turn(turnDirection * 0.5f);
+        }
+        else if (obstacleLeft && obstacleRight)
+        {
+            turnDirection = Random.value > 0.5f ? 1 : -1;
+            carController.Turn(turnDirection * 2f);
         }
     }
 
     private void StartReverseAndRotate()
     {
         isReversing = true;
-        actionTimer = reverseTime;
-        turnDirection = Random.value > 0.5f ? 1 : -1; // Random turn direction for variety
+        stuckCount++; // 🆕 Increase stuck counter
+
+        if (stuckCount >= 2)
+        {
+            // 🆕 After multiple stucks, force to change turn direction
+            turnDirection = -lastTurnDirection;
+        }
+        else
+        {
+            // Normal random
+            turnDirection = Random.value > 0.5f ? 1 : -1;
+        }
+
+        lastTurnDirection = turnDirection; // 🆕 Remember what we chose
+
+        // Adjust reverse time
+        if (isNarrowPath)
+        {
+            actionTimer = reverseTime;
+        }
+        else
+        {
+            actionTimer = reverseTime * 0.25f;
+        }
     }
 
     private void ReverseAndTurn()
@@ -147,13 +174,8 @@ public class ObstacleAvoidance : MonoBehaviour
         if (actionTimer > 0)
         {
             actionTimer -= Time.deltaTime;
-            carController.MoveBackward(enhancedReverseSpeed);  // Reverse with enhanced speed to escape stuck situation
-
-            // Turn in place, but with a limit on how far to rotate.
-            if (Mathf.Abs(transform.eulerAngles.y) % 360 < 90) // Restrict turning to 90 degrees
-            {
-                carController.Turn(turnDirection);
-            }
+            carController.MoveBackward(enhancedReverseSpeed);
+            carController.Turn(turnDirection * 0.5f);
         }
         else
         {
@@ -164,21 +186,31 @@ public class ObstacleAvoidance : MonoBehaviour
 
     private void StartRotation()
     {
-        // After reversing, turn in place to find an open path
         isRotating = true;
-        actionTimer = rotateInPlaceTime;
+        rotationStartAngle = transform.eulerAngles.y;
+
+        // 🆕 Make rotation bigger if stuck many times
+        rotationTargetAngle = isNarrowPath ? 120f : (11f + 20f * (stuckCount - 1)); 
+        rotationTargetAngle = Mathf.Clamp(rotationTargetAngle, 15f, 180f); // 🛡 prevent insane value
     }
 
     private void RotateInPlace()
     {
-        if (actionTimer > 0)
+        float currentAngle = transform.eulerAngles.y;
+        float angleRotated = Mathf.Abs(Mathf.DeltaAngle(rotationStartAngle, currentAngle));
+
+        if (angleRotated < rotationTargetAngle)
         {
-            actionTimer -= Time.deltaTime;
-            carController.Turn(turnDirection); // Only rotate in place to avoid returning to the stuck spot
+            carController.Turn(turnDirection);
         }
         else
         {
             isRotating = false;
         }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 1.0f);
     }
 }

@@ -11,12 +11,11 @@ public class RobotCarController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center to make harder to flip
+        rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center of mass
     }
 
     private void Update()
     {
-        // If robot flipped upside down
         if (Vector3.Dot(transform.up, Vector3.down) > 0.7f)
         {
             FlipBack();
@@ -27,9 +26,8 @@ public class RobotCarController : MonoBehaviour
 
     private void HandleManualInput()
     {
-        // Get input
-        float moveInput = Input.GetAxis("Vertical"); // W/S or Up/Down Arrow
-        float turnInput = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
+        float moveInput = Input.GetAxis("Vertical");
+        float turnInput = Input.GetAxis("Horizontal");
 
         if (Mathf.Abs(moveInput) > 0.01f || Mathf.Abs(turnInput) > 0.01f)
         {
@@ -44,13 +42,12 @@ public class RobotCarController : MonoBehaviour
 
     private void FlipBack()
     {
-        // Simply reset rotation upright
-        rb.velocity = Vector3.zero; // stop weird movements
+        rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
     }
 
-    // --- Automatic Control Functions ---
+    // --- Automatic Controls ---
 
     public void MoveForward()
     {
@@ -64,7 +61,6 @@ public class RobotCarController : MonoBehaviour
 
     public void Turn(float direction)
     {
-        // direction: -1 = left, +1 = right
         Rotate(direction);
     }
 
@@ -78,5 +74,11 @@ public class RobotCarController : MonoBehaviour
     {
         Quaternion turnRotation = Quaternion.Euler(0f, direction * turnSpeed * Time.deltaTime, 0f);
         rb.MoveRotation(rb.rotation * turnRotation);
+    }
+
+    public void StopMoving()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 }
