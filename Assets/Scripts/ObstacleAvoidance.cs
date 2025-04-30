@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ObstacleAvoidance : MonoBehaviour
 {
-    public float detectionDistance = 2f;
+    public float detectionDistance = 1.2f;
     public float reverseTime = 1.5f;
     public float rotateInPlaceTime = 1.2f;
     public float rotateInPlaceTimeLong = 2.5f;
@@ -18,7 +18,6 @@ public class ObstacleAvoidance : MonoBehaviour
     public Transform[] bombZones;
     private int currentTargetIndex = 0;
 
-    public Transform startingPosition;
     public float targetReachThreshold = 1.5f;
     public float movementSpeed = 1.5f;
     public float rotationSpeed = 2.0f;
@@ -34,7 +33,7 @@ public class ObstacleAvoidance : MonoBehaviour
     private float longStuckTimer = 0f;
 
     public float raycastAngleStep = 15f;
-    public float raycastLength = 2f;
+    public float raycastLength = 1.2f;
     private RaycastHit hit;
 
     private List<Vector3> path;
@@ -83,6 +82,20 @@ public class ObstacleAvoidance : MonoBehaviour
                 {
                     ScanForBombs(path[currentPathIndex]);
                 }
+                else
+                {
+                    // Reached the bomb zone
+                    currentTargetIndex++;
+                    if (currentTargetIndex < bombZones.Length)
+                    {
+                        CalculatePathToTarget();
+                        currentPathIndex = 0;
+                    }
+                    else
+                    {
+                        Debug.Log("All bomb zones visited.");
+                    }
+                }
                 return;
             }
 
@@ -92,7 +105,6 @@ public class ObstacleAvoidance : MonoBehaviour
                 Vector3 rayDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
                 bool hitObstacle = Physics.Raycast(transform.position, rayDirection, out hit, raycastLength, obstacleLayer);
                 Debug.DrawRay(transform.position, rayDirection * raycastLength, hitObstacle ? Color.red : Color.green);
-
                 if (hitObstacle) isObstacleDetected = true;
             }
 
@@ -152,43 +164,23 @@ public class ObstacleAvoidance : MonoBehaviour
             foreach (var bomb in bombs)
             {
                 Debug.Log("Bomb found at: " + bomb.transform.position);
-                StartReturnToStart();
+                // Immediately go to the next bomb zone
+                currentTargetIndex++;
+                if (currentTargetIndex < bombZones.Length)
+                {
+                    CalculatePathToTarget();
+                    currentPathIndex = 0;
+                }
+                else
+                {
+                    Debug.Log("All bomb zones visited.");
+                }
                 return;
             }
         }
         else
         {
             Debug.Log("No bombs found around " + targetZone);
-        }
-    }
-
-    private void StartReturnToStart()
-    {
-        path = new List<Vector3> { startingPosition.position };
-        currentPathIndex = 0;
-
-        Debug.Log("Returning to start position...");
-        StartCoroutine(ResumePathAfterReturning());
-    }
-
-    private IEnumerator ResumePathAfterReturning()
-    {
-        while (Vector3.Distance(transform.position, startingPosition.position) > targetReachThreshold)
-        {
-            yield return null;
-        }
-
-        currentTargetIndex++;
-
-        if (currentTargetIndex < bombZones.Length)
-        {
-            CalculatePathToTarget();
-            currentPathIndex = 0;
-            Debug.Log("Proceeding to next bomb zone: " + currentTargetIndex);
-        }
-        else
-        {
-            Debug.Log("All bomb zones visited.");
         }
     }
 
